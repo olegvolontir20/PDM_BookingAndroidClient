@@ -10,11 +10,38 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.booking.app.api.RetrofitInitializer
 import com.booking.app.ui.theme.BookingAppTheme
+
+import android.widget.Toast
+import com.booking.app.api.models.ApartmentResponseList
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val call: Call<ApartmentResponseList> = RetrofitInitializer.bookingApartmentsEndpoint.getApartments()
+
+        call.enqueue(object : Callback<ApartmentResponseList> {
+            override fun onResponse(call: Call<ApartmentResponseList>, response: Response<ApartmentResponseList>) {
+                if (response.isSuccessful) {
+                    val data: ApartmentResponseList? = response.body()
+                    val mess = data?.apartmentList?.apartments?.get(0)?.description.toString()
+                    showToast("Apartment1 descr: " + mess)
+                } else {
+                    showToast("onResponse failed")
+                }
+            }
+
+            override fun onFailure(call: Call<ApartmentResponseList>, t: Throwable) {
+                showToast(t.message.toString())
+            }
+        })
+
         setContent {
             BookingAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -26,6 +53,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }
 
