@@ -1,6 +1,6 @@
 package com.booking.app.api
 
-import com.booking.app.api.endpoints.BookingApartmentsEndpoint
+import com.booking.app.api.endpoints.ApartmentsEndpoint
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,7 +19,7 @@ object RetrofitInitializer {
             .build()
     }
 
-    val bookingApartmentsEndpoint: BookingApartmentsEndpoint by lazy {
-        retrofit.create(BookingApartmentsEndpoint::class.java)
+    val bookingApartmentsEndpoint: ApartmentsEndpoint by lazy {
+        retrofit.create(ApartmentsEndpoint::class.java)
     }
 }
