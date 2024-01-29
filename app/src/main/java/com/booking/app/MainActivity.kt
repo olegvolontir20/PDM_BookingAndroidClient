@@ -14,7 +14,7 @@ import com.booking.app.api.RetrofitInitializer
 import com.booking.app.ui.theme.BookingAppTheme
 
 import android.widget.Toast
-import com.booking.app.api.models.ApartmentResponseList
+import com.booking.app.api.models.ApartmentListReponse
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,20 +24,20 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val call: Call<ApartmentResponseList> = RetrofitInitializer.bookingApartmentsEndpoint.getApartments()
+        val call: Call<ApartmentListReponse> = RetrofitInitializer.bookingApartmentsEndpoint.getApartments()
 
-        call.enqueue(object : Callback<ApartmentResponseList> {
-            override fun onResponse(call: Call<ApartmentResponseList>, response: Response<ApartmentResponseList>) {
+        call.enqueue(object : Callback<ApartmentListReponse> {
+            override fun onResponse(call: Call<ApartmentListReponse>, response: Response<ApartmentListReponse>) {
                 if (response.isSuccessful) {
-                    val data: ApartmentResponseList? = response.body()
-                    val mess = data?.apartmentList?.apartments?.get(0)?.description.toString()
+                    val data: ApartmentListReponse? = response.body()
+                    val mess = data?.apartmentList?.get(0)?.description.toString()
                     showToast("Apartment1 descr: " + mess)
                 } else {
                     showToast("onResponse failed")
                 }
             }
 
-            override fun onFailure(call: Call<ApartmentResponseList>, t: Throwable) {
+            override fun onFailure(call: Call<ApartmentListReponse>, t: Throwable) {
                 showToast(t.message.toString())
             }
         })

@@ -35,4 +35,8 @@ class Apartment {
     @SerializedName("description")
     @Expose
     var description: String? = null
+
+    @SerializedName("pathImage")
+    @Expose
+    var pathImage: String? = null
 }

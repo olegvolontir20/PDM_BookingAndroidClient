@@ -3,7 +3,7 @@ package com.booking.app.api.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class ApartmentResponseList {
+class ApartmentListReponse {
     @SerializedName("count")
     @Expose
     var count: Int? = null
@@ -18,5 +18,5 @@ class ApartmentResponseList {
 
     @SerializedName("items")
     @Expose
-    var apartmentList: ApartmentList? = null
+    var apartmentList: List<Apartment>? = null
 }
