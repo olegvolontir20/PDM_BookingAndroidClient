@@ -2,4 +2,21 @@
 <resources>
 
     <style name="Theme.BookingApp" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.BookingApp.Fullscreen" parent="Theme.BookingApp">
+        <item name="android:actionBarStyle">@style/Widget.Theme.BookingApp.ActionBar.Fullscreen
+        </item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="ThemeOverlay.BookingApp.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.BookingApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
 </resources>
