@@ -1,22 +1,7 @@
 package com.booking.app.api.models
-
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-
-class ApartmentListReponse {
-    @SerializedName("count")
-    @Expose
-    var count: Int? = null
-
-    @SerializedName("perPage")
-    @Expose
-    var perPage: Int? = null
-
-    @SerializedName("currentPage")
-    @Expose
-    var currentPage: Int? = null
-
-    @SerializedName("items")
-    @Expose
+data class ApartmentListReponse (
+    var count: Int? = null,
+    var perPage: Int? = null,
+    var currentPage: Int? = null,
     var apartmentList: List<Apartment>? = null
-}
+)
