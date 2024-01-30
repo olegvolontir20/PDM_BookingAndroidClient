@@ -10,7 +10,7 @@ import retrofit2.http.POST
 interface ApartmentBookingsEndpoint {
 
 //    @GET("api/ApartmentBookings")
-//    fun getApartamentBookings(): Call<ApartmentBookingList>
+//    fun getApartmentBookings(): Call<ApartmentBookingList>
 //
 //    @POST("api/createBooking")
 //    fun createApartmentBooking(@Body apartmentBooking: ApartmentBooking): Call<ApartmentBookingList>
