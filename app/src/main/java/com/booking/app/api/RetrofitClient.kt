@@ -9,7 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     private const val BASE_URL = "https://bookingappapi20240120200613.azurewebsites.net/"
 
-
     val apartmentEndpoint: ApartmentEndpoint by lazy {
         retrofit.create(ApartmentEndpoint::class.java)
     }
