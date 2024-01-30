@@ -10,16 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.booking.app.api.RetrofitClient
 import com.booking.app.ui.theme.BookingAppTheme
-
-import android.widget.Toast
-import com.booking.app.api.models.ApartmentListReponse
-import com.booking.app.api.models.LoginModel
-
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

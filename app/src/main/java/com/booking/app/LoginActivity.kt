@@ -42,7 +42,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.booking.app.api.RetrofitClient
+import com.booking.app.api.models.Apartment
 import com.booking.app.api.models.LoginModel
+import com.booking.app.api.models.PaginatedResponse
 import com.booking.app.api.models.RegisterModel
 import com.booking.app.ui.theme.BookingAppTheme
 import retrofit2.Call
@@ -52,11 +54,34 @@ import retrofit2.Response
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent() {
             BookingAppTheme {
                 LoginSignupScreen()
             }
         }
+
+//        val call: Call<PaginatedResponse<Apartment>> = RetrofitClient.apartmentEndpoint.getApartments()
+//        val context = this
+//
+//        call.enqueue(object : Callback<PaginatedResponse<Apartment>> {
+//            override fun onResponse(
+//                call: Call<PaginatedResponse<Apartment>>,
+//                response: Response<PaginatedResponse<Apartment>>
+//            ) {
+//                if (response.isSuccessful) {
+//                    val data: PaginatedResponse<Apartment>? = response.body()
+//                    val mess = data?.items?.get(0)?.description.toString()
+//                    showToast("Apartment1 descr: " + mess, context)
+//                } else {
+//                    showToast("onResponse failed", context)
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<PaginatedResponse<Apartment>>, t: Throwable) {
+//                showToast(t.message.toString(), context)
+//            }
+//        })
     }
 }
 
