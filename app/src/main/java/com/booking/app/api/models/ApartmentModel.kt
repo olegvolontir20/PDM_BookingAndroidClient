@@ -1,6 +1,5 @@
 package com.booking.app.api.models
 data class ApartmentModel (
-
     var id: Int? = null,
     var name: String? = null,
     var city: String? = null,

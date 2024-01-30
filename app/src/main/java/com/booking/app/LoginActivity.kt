@@ -90,7 +90,7 @@ fun userLogin(loginModel: LoginModel, context: Context, onFail: () -> Unit){
         override fun onResponse(call: Call<Void>, response: Response<Void>) {
             if (response.isSuccessful) {
                 showToast(response.code().toString(), context)
-                context.startActivity(Intent(context, MainActivity::class.java))
+                context.startActivity(Intent(context, HomeScreenActivity::class.java))
                 (context as Activity).finish()
             } else {
                 showToast(response.message(), context)
