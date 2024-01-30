@@ -1,6 +1,8 @@
 package com.booking.app.api
 
 import com.booking.app.api.endpoints.ApartmentEndpoint
+import com.booking.app.api.endpoints.BookingEndpoint
+import com.booking.app.api.endpoints.HotelEndpoint
 import com.booking.app.api.endpoints.UserEndpoint
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -11,6 +13,12 @@ object RetrofitClient {
 
     val apartmentEndpoint: ApartmentEndpoint by lazy {
         retrofit.create(ApartmentEndpoint::class.java)
+    }
+    val hotelEndpoint: HotelEndpoint by lazy {
+        retrofit.create(HotelEndpoint::class.java)
+    }
+    val bookingEndpoint: BookingEndpoint by lazy {
+        retrofit.create(BookingEndpoint::class.java)
     }
     val userEndpoint: UserEndpoint by lazy{
         retrofit.create(UserEndpoint::class.java)

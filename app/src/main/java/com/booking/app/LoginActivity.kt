@@ -42,9 +42,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.booking.app.api.RetrofitClient
-import com.booking.app.api.models.Apartment
 import com.booking.app.api.models.LoginModel
-import com.booking.app.api.models.PaginatedResponse
 import com.booking.app.api.models.RegisterModel
 import com.booking.app.ui.theme.BookingAppTheme
 import retrofit2.Call
