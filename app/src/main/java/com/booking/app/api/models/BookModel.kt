@@ -1,9 +1,9 @@
 package com.booking.app.api.models
 
 data class BookModel  (
-    var country: String? = null,
-    var city: String? = null,
-    var startDate: String? = null,
-    var endDate: String? = null,
-    var capacity: String? = null
+    var country: String = "",
+    var city: String = "",
+    var startDate: String = "",
+    var endDate: String = "",
+    var capacity: String = ""
 )
