@@ -1,12 +1,9 @@
 package com.booking.app
 
-import android.R.attr.maxLines
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Base64
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -42,7 +39,6 @@ import com.booking.app.util.imageFromBase64
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.ByteArrayInputStream
 
 
 class HomeScreenActivity : ComponentActivity() {

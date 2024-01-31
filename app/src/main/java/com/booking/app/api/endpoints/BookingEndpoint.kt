@@ -10,13 +10,14 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface BookingEndpoint {
-    @GET("api/Booking/book-apartment")
+    @POST("api/Booking/book-apartment")
     fun bookApartment(@Body model: AddApartmentBookingModel): Call<ApartmentBookingModel>
 
-    @GET("api/Booking/book-room")
+    @POST("api/Booking/book-room")
     fun bookRoom(@Body model: AddRoomBookingModel): Call<RoomBookingModel>
 
     @DELETE("api/Booking/room-book")

@@ -7,6 +7,6 @@ data class HotelModel(
     var country: String = "",
     var phone: String = "",
     var description: String = "",
-    var rooms: List<RoomModel> = emptyList(),
+    var rooms: MutableList<RoomModel> = mutableListOf(),
     var pathImage: String = ""
 )
