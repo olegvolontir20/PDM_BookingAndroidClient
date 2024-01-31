@@ -58,28 +58,6 @@ class LoginActivity : ComponentActivity() {
                 LoginSignupScreen()
             }
         }
-
-//        val call: Call<PaginatedResponse<Apartment>> = RetrofitClient.apartmentEndpoint.getApartments()
-//        val context = this
-//
-//        call.enqueue(object : Callback<PaginatedResponse<Apartment>> {
-//            override fun onResponse(
-//                call: Call<PaginatedResponse<Apartment>>,
-//                response: Response<PaginatedResponse<Apartment>>
-//            ) {
-//                if (response.isSuccessful) {
-//                    val data: PaginatedResponse<Apartment>? = response.body()
-//                    val mess = data?.items?.get(0)?.description.toString()
-//                    showToast("Apartment1 descr: " + mess, context)
-//                } else {
-//                    showToast("onResponse failed", context)
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<PaginatedResponse<Apartment>>, t: Throwable) {
-//                showToast(t.message.toString(), context)
-//            }
-//        })
     }
 }
 
@@ -89,11 +67,10 @@ fun userLogin(loginModel: LoginModel, context: Context, onFail: () -> Unit){
     call.enqueue(object : Callback<Void> {
         override fun onResponse(call: Call<Void>, response: Response<Void>) {
             if (response.isSuccessful) {
-                showToast(response.code().toString(), context)
+                showToast("Welcome!", context)
                 context.startActivity(Intent(context, HomeScreenActivity::class.java))
                 (context as Activity).finish()
             } else {
-                showToast(response.message(), context)
                 onFail.invoke()
             }
         }
@@ -113,6 +90,7 @@ fun userSignup(
 ){
     if(registerModel.password != confirmPassword)
     {
+        showToast("Passwords don't match!", context)
         onFail.invoke()
         return
     }
@@ -122,10 +100,9 @@ fun userSignup(
     call.enqueue(object : Callback<Void> {
         override fun onResponse(call: Call<Void>, response: Response<Void>) {
             if (response.isSuccessful) {
-                showToast(response.code().toString(), context)
+                showToast("Sign Up successful", context)
                 onSuccess.invoke()
             } else {
-                showToast(response.message(), context)
                 onFail.invoke()
             }
         }
@@ -140,22 +117,6 @@ fun showToast(message: String, context: Context) {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }
 
-@Preview
-@Composable
-fun PreviewLoginSignupScreen(){
-    Surface {
-        var isLoginScreen = false
-
-        if(isLoginScreen)
-        {
-            PreviewLoginForm()
-        }
-        else
-        {
-            PreviewSignupForm()
-        }
-    }
-}
 
 @Composable
 fun LoginSignupScreen(){
@@ -175,65 +136,6 @@ fun LoginSignupScreen(){
         else
         {
             SignupForm(changeScreen)
-        }
-    }
-}
-
-@Composable
-fun PreviewSignupForm(){
-    Surface {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 30.dp)
-        ) {
-            UsernameField(
-                value = "registerModel.userName",
-                onChange = { },
-                modifier = Modifier.fillMaxWidth()
-            )
-            PasswordField(
-                value = "registerModel.password",
-                onChange = {},
-                submit = { },
-                modifier = Modifier.fillMaxWidth()
-            )
-            PasswordField(
-                value = "confirmPassword",
-                label = "Confirm Password",
-                placeholder = "Confirm password",
-                onChange = { },
-                submit = { },
-                modifier = Modifier.fillMaxWidth()
-            )
-            EmailField(
-                value = "registerModel.email",
-                onChange = {},
-                modifier = Modifier.fillMaxWidth()
-            )
-            NumberField(
-                value = "registerModel.phoneNumber",
-                onChange = {},
-                modifier = Modifier.fillMaxWidth()
-            )
-            Button(
-                onClick = {  },
-                enabled = true,
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Login")
-            }
-            Button(
-                onClick = {  },
-                enabled = true,
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Go to Login")
-            }
         }
     }
 }
@@ -306,39 +208,6 @@ fun SignupForm(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Go to Login")
-            }
-        }
-    }
-}
-
-@Composable
-fun PreviewLoginForm() {
-    Surface {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 30.dp)
-        ) {
-            UsernameField(
-                value = "login",
-                onChange = {},
-                modifier = Modifier.fillMaxWidth()
-            )
-            PasswordField(
-                value = "password",
-                onChange = { },
-                submit = { },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Button(
-                onClick = { },
-                enabled = true,
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Login")
             }
         }
     }
@@ -531,4 +400,114 @@ fun NumberField(
         visualTransformation = VisualTransformation.None
     )
 }
+
+
+//@Preview
+//@Composable
+//fun PreviewLoginSignupScreen(){
+//    Surface {
+//        var isLoginScreen = false
+//
+//        if(isLoginScreen)
+//        {
+//            PreviewLoginForm()
+//        }
+//        else
+//        {
+//            PreviewSignupForm()
+//        }
+//    }
+//}
+
+//@Composable
+//fun PreviewSignupForm(){
+//    Surface {
+//        Column(
+//            verticalArrangement = Arrangement.Center,
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(horizontal = 30.dp)
+//        ) {
+//            UsernameField(
+//                value = "registerModel.userName",
+//                onChange = { },
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//            PasswordField(
+//                value = "registerModel.password",
+//                onChange = {},
+//                submit = { },
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//            PasswordField(
+//                value = "confirmPassword",
+//                label = "Confirm Password",
+//                placeholder = "Confirm password",
+//                onChange = { },
+//                submit = { },
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//            EmailField(
+//                value = "registerModel.email",
+//                onChange = {},
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//            NumberField(
+//                value = "registerModel.phoneNumber",
+//                onChange = {},
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//            Button(
+//                onClick = {  },
+//                enabled = true,
+//                shape = RoundedCornerShape(5.dp),
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                Text("Login")
+//            }
+//            Button(
+//                onClick = {  },
+//                enabled = true,
+//                shape = RoundedCornerShape(5.dp),
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                Text("Go to Login")
+//            }
+//        }
+//    }
+//}
+
+//@Composable
+//fun PreviewLoginForm() {
+//    Surface {
+//        Column(
+//            verticalArrangement = Arrangement.Center,
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(horizontal = 30.dp)
+//        ) {
+//            UsernameField(
+//                value = "login",
+//                onChange = {},
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//            PasswordField(
+//                value = "password",
+//                onChange = { },
+//                submit = { },
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//            Button(
+//                onClick = { },
+//                enabled = true,
+//                shape = RoundedCornerShape(5.dp),
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                Text("Login")
+//            }
+//        }
+//    }
+//}
 
