@@ -1,15 +1,21 @@
 package com.booking.app
 
+import android.R.attr.maxLines
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -18,23 +24,26 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.os.bundleOf
 import com.booking.app.api.RetrofitClient
 import com.booking.app.api.models.ApartmentModel
 import com.booking.app.api.models.HotelModel
 import com.booking.app.api.models.PaginatedResponse
 import com.booking.app.ui.theme.BookingAppTheme
+import com.booking.app.util.imageFromBase64
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.graphics.BitmapFactory
-import android.util.Base64
-import androidx.compose.foundation.Image
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import java.io.ByteArrayInputStream
+
 
 class HomeScreenActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,20 +55,6 @@ class HomeScreenActivity : ComponentActivity() {
             }
         }
     }
-}
-
-fun imageFromBase64(
-    base64String: String
-):Bitmap?
-{
-    try {
-        val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
-        val inputStream = ByteArrayInputStream(decodedBytes)
-        return BitmapFactory.decodeStream(inputStream)
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-    return null
 }
 
 fun getApartmentList(
@@ -115,44 +110,20 @@ fun getHotelList(
     })
 }
 
+fun apartmentDetails(apartment: ApartmentModel, context: Context){
+    context.startActivity(Intent(context, ApartmentScreenActivity::class.java).apply {
+        putExtras(bundleOf("apartment" to apartment))
+    })
+}
 
-
+@Preview
 @Composable
-fun HomeScreenTabs(){
-    val context = LocalContext.current
-
+fun HomeScreenPreview() {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
-    var apartmentList: List<ApartmentModel> by remember {
-        mutableStateOf(emptyList())
-    }
-
-    var hotelList: List<HotelModel> by remember {
-        mutableStateOf(emptyList())
-    }
-
-    val updateApartmentList: (List<ApartmentModel>) -> Unit = {
-        newList ->
-
-        apartmentList = newList
-    }
-
-    val updateHotelList: (List<HotelModel>) -> Unit = {
-            newList ->
-
-        hotelList = newList
-    }
-
-    DisposableEffect(Unit) {
-        getApartmentList(context, updateApartmentList)
-        getHotelList(context, updateHotelList)
-
-        onDispose {
-        }
-    }
-
-    Column {
-        // Tab Row
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
         TabRow(
             selectedTabIndex = selectedTabIndex,
             modifier = Modifier
@@ -169,29 +140,107 @@ fun HomeScreenTabs(){
         ) {
             Tab(
                 selected = selectedTabIndex == 0,
-                onClick = { selectedTabIndex = 0; getApartmentList(context, updateApartmentList) },
+                onClick = {},
                 icon = { Icon(Icons.Default.Home, contentDescription = "Apartments") },
                 text = { Text("Apartments") }
             )
             Tab(
                 selected = selectedTabIndex == 1,
-                onClick = { selectedTabIndex = 1; getHotelList(context, updateHotelList) },
+                onClick = { },
                 icon = { Icon(Icons.Default.Home, contentDescription = "Hotels") },
                 text = { Text("Hotels") }
             )
             Tab(
                 selected = selectedTabIndex == 2,
-                onClick = { selectedTabIndex = 2 },
+                onClick = { },
                 icon = { Icon(Icons.Default.Person, contentDescription = "Bookings") },
                 text = { Text("Bookings") }
             )
         }
 
-        // Content area based on the selected tab
         when (selectedTabIndex) {
-            0 -> ApartmentsTabContent(apartmentList)
-            1 -> HotelsTabContent(hotelList)
-            2 -> BookingsTabContent()
+            0 -> Text(text = "Tab")
+            1 -> Text(text = "Tab")
+            2 -> Text(text = "Tab")
+        }
+    }
+}
+
+@Composable
+fun HomeScreenTabs(){
+    Surface {
+        val context = LocalContext.current
+
+        var selectedTabIndex by remember { mutableIntStateOf(0) }
+
+        var apartmentList: List<ApartmentModel> by remember {
+            mutableStateOf(emptyList())
+        }
+
+        var hotelList: List<HotelModel> by remember {
+            mutableStateOf(emptyList())
+        }
+
+        val updateApartmentList: (List<ApartmentModel>) -> Unit = { newList ->
+
+            apartmentList = newList
+        }
+
+        val updateHotelList: (List<HotelModel>) -> Unit = { newList ->
+
+            hotelList = newList
+        }
+
+        getApartmentList(context, updateApartmentList)
+        getHotelList(context, updateHotelList)
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            TabRow(
+                selectedTabIndex = selectedTabIndex,
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.primary),
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        Modifier
+                            .tabIndicatorOffset(tabPositions[selectedTabIndex])
+                            .height(2.dp)
+                    )
+                }
+            ) {
+                Tab(
+                    selected = selectedTabIndex == 0,
+                    onClick = {
+                        selectedTabIndex = 0; getApartmentList(
+                        context,
+                        updateApartmentList
+                    )
+                    },
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Apartments") },
+                    text = { Text("Apartments") }
+                )
+                Tab(
+                    selected = selectedTabIndex == 1,
+                    onClick = { selectedTabIndex = 1; getHotelList(context, updateHotelList) },
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Hotels") },
+                    text = { Text("Hotels") }
+                )
+                Tab(
+                    selected = selectedTabIndex == 2,
+                    onClick = { selectedTabIndex = 2 },
+                    icon = { Icon(Icons.Default.Person, contentDescription = "Bookings") },
+                    text = { Text("Bookings") }
+                )
+            }
+
+            // Content area based on the selected tab
+            when (selectedTabIndex) {
+                0 -> ApartmentsTabContent(apartmentList)
+                1 -> HotelsTabContent(hotelList)
+                2 -> BookingsTabContent()
+            }
         }
     }
 }
@@ -203,54 +252,78 @@ fun ApartmentsTabContent(
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-    ){
-        items(apartmentList){
-            item ->
+    ) {
+        items(apartmentList) { item ->
 
-            ApartmentListItem(item)
+            ApartmentListItem(item, ::apartmentDetails)
         }
     }
 }
 
 @Composable
 fun ApartmentListItem(
-    apartment: ApartmentModel
-)
-{
+    apartment: ApartmentModel,
+    onItemClick: (ApartmentModel, Context) -> Unit
+) {
     var bitmap: Bitmap =
-        if(imageFromBase64(apartment.pathImage) != null)
-        {
+        if (imageFromBase64(apartment.pathImage) != null) {
             imageFromBase64(apartment.pathImage) as Bitmap
-        }else{
-            Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
+        } else {
+            Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
         }
 
-    Row(
+    val context = LocalContext.current
+
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-    ){
-        Image(
-            bitmap = bitmap.asImageBitmap(),
-            contentDescription = "Apartment",
+            .padding(10.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .clickable {
+                onItemClick(apartment, context)
+            }
+    ) {
+        Row(
             modifier = Modifier
-                .width(100.dp)
-                .height(100.dp)
-        )
-        Column(
-            modifier = Modifier
+                .defaultMinSize(minHeight = 100.dp)
                 .fillMaxWidth()
         ) {
-            Text(
+            Image(
+                bitmap = bitmap.asImageBitmap(),
+                contentDescription = "Apartment",
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxHeight()
+                    .width(100.dp)
+                    .align(Alignment.CenterVertically)
+            )
+            Spacer(modifier = Modifier
+                .fillMaxHeight()
+                .width(5.dp))
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .align(alignment = Alignment.CenterHorizontally),
-                text = apartment.name
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = apartment.description
-            )
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(alignment = Alignment.CenterHorizontally),
+                    text = apartment.name,
+                    fontSize = 22.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(5.dp))
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = apartment.description,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
@@ -262,9 +335,8 @@ fun HotelsTabContent(
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-    ){
-        items(hotelList){
-                item ->
+    ) {
+        items(hotelList) { item ->
 
             HotelListItem(item)
         }
